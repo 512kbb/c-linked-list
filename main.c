@@ -65,7 +65,29 @@ int removeNode(int data)
 }
 
 // INSERT NODE INTO A POSITION IN THE LIST
+Node *insertNode(int data, int position)
+{
+    Node *current = head;
+    while (current != NULL && position != 0)
+    {
+        position--;
+    }
 
+    if (position != 0)
+    {
+        printf("requested position too far into list \n");
+        return NULL;
+    }
+
+    Node *new = malloc(sizeof(Node));
+    if (new == NULL)
+        return NULL;
+    new->data = data;
+    new->next = current->next;
+    current->next = new;
+
+    return new;
+}
 
 // print operation
 void printList()
@@ -95,6 +117,8 @@ void printMenu()
 int main(int argc, char **argv)
 {
     int option = -1;
+    int arg1 = 0;
+    int arg2 = 0;
     while (option != 5)
     {
         printMenu();
@@ -106,19 +130,26 @@ int main(int argc, char **argv)
                 case 1:
                     // add operation
                     printf("what data should i insert?:\n");
-                    scanf("%d", &option);
-                    Node *new = addNode(option);
+                    scanf("%d", &arg1);
+                    Node *new = addNode(arg1);
                     break;
                 case 2:
                     // remove operation
                     printf("what data should i remove?:\n");
-                    scanf("%d", &option);
-                    int success = removeNode(option);
+                    scanf("%d", &arg1);
+                    int success = removeNode(arg1);
                     if (!success)
                         printf("element not found\n");
                     break;
                 case 3:
                     // insert operation
+                    printf("what data should i insert?:\n");
+                    scanf("%d", &arg1);
+                    printf("what position you want your data to be inserted to?:\n");
+                    scanf("%d", &arg2);
+                    Node *new2 = insertNode(arg1, arg2);
+                    if (new2 == NULL)
+                        printf("failed to insert into list\n");
                     break;
                 case 4:
                     // print operation
